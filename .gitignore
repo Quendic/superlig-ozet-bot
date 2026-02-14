@@ -1,0 +1,6 @@
+.env
+matches.db
+__pycache__/
+*.pyc
+.vscode/
+.idea/
