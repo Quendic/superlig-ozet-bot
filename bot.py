@@ -30,7 +30,11 @@ async def cmd_start(message: Message):
         await message.answer("⚽ Takip sistemi aktif. Maç bitiminden 2 saat sonra özet kontrolü yapıyorum.")
 
 async def discovery_job():
-    """Yeni maçları keşfetmek için 45 dakikada bir çalışır."""
+    """Yeni maçları keşfetmek için 45 dakikada bir çalışır (Sadece Fri-Mon)."""
+    now = datetime.now()
+    if now.weekday() not in [0, 4, 5, 6]: # 0=Pazartesi, 4=Cuma, 5=Cumartesi, 6=Pazar
+        return
+
     if not ADMIN_CHAT_ID: return
     logging.info("🔍 [Keşif] Yeni maçlar aranıyor (45dk periyot)...")
     found_matches = await scrape_all_matches()
@@ -39,7 +43,11 @@ async def discovery_job():
     logging.info(f"🔍 [Keşif] {len(found_matches)} maç güncellendi.")
 
 async def summary_check_job():
-    """Süresi dolan maçların özetlerini 5 dakikada bir kontrol eder."""
+    """Süresi dolan maçların özetlerini 5 dakikada bir kontrol eder (Sadece Fri-Mon)."""
+    now = datetime.now()
+    if now.weekday() not in [0, 4, 5, 6]:
+        return
+
     if not ADMIN_CHAT_ID: return
     
     pending_ids = get_pending_matches()
