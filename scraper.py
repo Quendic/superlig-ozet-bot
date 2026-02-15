@@ -76,6 +76,7 @@ async def scrape_all_matches():
 
                 if match_id not in results:
                     results[match_id] = {
+                        'match_id': match_id,
                         'teams': match_id.replace("-mac-ozeti", "").replace("-", " ").title(),
                         'start_time': start_time,
                         'url': summary_url
